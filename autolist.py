@@ -121,6 +121,7 @@ def printls(lines):
     for line in lines:
         print(line)
 
+
 def main():
     namelist=setheader('input')
     d = sortab(chkinum(readf('input')))
