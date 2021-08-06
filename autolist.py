@@ -9,6 +9,7 @@ sname = 2
 smail = 3
 googlecontacts = ['Name', 'E-mail 1 - Value', 'Group Membership', 'Notes']
 namelist = []
+print('Welcome! v1.A46')
 
 def setheader(filename):
     with open(filename + '.csv', 'r', encoding='utf-8-sig') as f:
@@ -29,13 +30,8 @@ def readf(filename):
 
 def chkinum(lines):
     for line in lines:
-        for word in line[inum]:
-            if word=='O':
-                print(word)
-                word='x'
-#            word=word.upper()
-#            print(line[inum])
-#    print(lines)
+        line[inum] = line[inum].upper()
+        line[inum] = line[inum].replace('O', '0')
     return lines
 
 def sortab(lines):
@@ -60,7 +56,7 @@ def addmail(solines, inlines):
                         i.append('')
                         break
                     else:
-                        i.append(False)
+                        i.append(None)
                         i.append(s[smail])
                         i.append('此人無mail')
                         break
@@ -70,9 +66,17 @@ def addmail(solines, inlines):
                         i.append(s[smail])
                         i.append('是否為' + s[snum] + s[sname])
                     else:
-                        i.append(False)
+                        i.append(None)
                         i.append(s[smail])
                         i.append('是否為' + s[snum] + s[sname] + '此人無mail')
+            elif i[iname][:3] == s[sname]:
+                i.append(True)
+                i.append(s[smail])
+                i.append('是否為' + s[snum] + s[sname])
+            elif i[iname][:4] == s[sname]:
+                i.append(True)
+                i.append(s[smail])
+                i.append('是否為' + s[snum] + s[sname])
         if len(i) < imail:
             i.append(False)
             i.append('')
@@ -97,6 +101,8 @@ def makedata(lines, group):
             d.append(line[i])
         if line[imail-1]:
             d.append('')
+        elif line[imail-1]==None:
+            d.append('此人無mail')
         else:
             d.append('查無mail')
         datae.append(d)
@@ -108,15 +114,19 @@ def writef(lines, filename, header):
         w = csv.writer(f)
         w.writerow(header)
         w.writerows(lines)
-        print(lines)
     return True
 
+
+def printls(lines):
+    for line in lines:
+        print(line)
 
 def main():
     namelist=setheader('input')
     d = sortab(chkinum(readf('input')))
     da = makedata(addmail(readf('Source'),d[0]), 'A')
     db = makedata(addmail(readf('Source'),d[1]), 'B')
+    #printls(da[1])
     if writef(da[1],'A會議室名單', namelist):
         print('A會議室名單,檔案成功產出')
     if writef(da[0] + db[0],'google通訊錄', googlecontacts):
