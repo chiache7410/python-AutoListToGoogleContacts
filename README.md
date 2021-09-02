@@ -1,3 +1,4 @@
+
 1.將全單位通訊錄轉存為Source.csv
 2.將報名單轉存為input.csv(報名單可從Google表單中產出)
 3.執行autolist.py
