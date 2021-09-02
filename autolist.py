@@ -9,7 +9,7 @@ sname = 2
 smail = 3
 googlecontacts = ['Name', 'E-mail 1 - Value', 'Group Membership', 'Notes']
 namelist = []
-print('Welcome! v1.A46')
+print('Welcome! v1.S02')
 
 def setheader(filename):
     with open(filename + '.csv', 'r', encoding='utf-8-sig') as f:
@@ -115,12 +115,24 @@ def writef(lines, filename, header):
         w.writerow(header)
         w.writerows(lines)
     return True
+    
+
+
+def writetxt(lines, filename):
+    mails = ''
+    for line in lines:
+        if mails != '':
+            mails = mails + ','
+        mails = mails + line[1]
+    with open(filename + '.txt', 'w', newline='', encoding='utf-8-sig') as f:
+        f.write(mails)
+    return mails
+
 
 
 def printls(lines):
     for line in lines:
         print(line)
-
 
 def main():
     namelist=setheader('input')
@@ -132,5 +144,6 @@ def main():
         print('A會議室名單,檔案成功產出')
     if writef(da[0] + db[0],'google通訊錄', googlecontacts):
         print('google通訊錄,檔案成功產出')
+    writetxt(da[0] + db[0],'邀請名單串')
 
 main()
